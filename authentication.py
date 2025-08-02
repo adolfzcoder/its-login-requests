@@ -12,23 +12,22 @@ Example of payload
 import requests
 from credentials import unum, pin
 from Payload import Payload
+from flask import jsonify
 url = "https://ienabler.nust.na/pls/prodi41/w99pkg.mi_validate_user"
 
-def login(accountType, user_number, pin, authorise_function):
+def login(data: Payload):
     # payload = {
     # "numtype": "S",
     # "unum": unum,
     # "pin": pin,
     # "authorise_function": "Login"
     # }
-    p = Payload(accountType, user_number, pin, authorise_function) 
 
 
     payload = {
-    "numtype": p.accType,
-    "unum": p.number,
-    "pin": p.pin,
-    "authorise_function": p.authorise_login
+    "numtype":data.accType,
+    "unum":data.number,
+    "pin":data.pin
     }
     
 
@@ -39,6 +38,13 @@ def login(accountType, user_number, pin, authorise_function):
 
     with requests.Session() as session:
         response = session.post(url, data=payload, headers=headers)
-        print("Status code:", response.status_code)
-        print("Response URL:", response.url)
-        print("Response text snippet:", response.text[:500])
+        # print("Status code:", response.status_code)
+        # print("Response URL:", response.url)
+        # print("Response text snippet:", response.text[:500])
+
+    if response.status_code == 200:
+
+        return True, "Login Succesful"
+    else:
+        return False, "Invalid credentials"
+
