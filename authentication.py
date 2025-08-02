@@ -1,6 +1,17 @@
+"""
+Example of payload
+    # payload = {
+    # "numtype": "S",
+    # "unum": 224037928,  #Student number
+    # "pin": 123452, # Pin for KIOSK
+    # "authorise_function": "Login"
+    # }
+
+"""
+
 import requests
 from credentials import unum, pin
-import Payload 
+from Payload import Payload
 url = "https://ienabler.nust.na/pls/prodi41/w99pkg.mi_validate_user"
 
 def login(accountType, user_number, pin, authorise_function):
@@ -10,8 +21,15 @@ def login(accountType, user_number, pin, authorise_function):
     # "pin": pin,
     # "authorise_function": "Login"
     # }
-    payload = Payload(accountType, user_number, pin, authorise_function) 
+    p = Payload(accountType, user_number, pin, authorise_function) 
 
+
+    payload = {
+    "numtype": p.accType,
+    "unum": p.number,
+    "pin": p.pin,
+    "authorise_function": p.authorise_login
+    }
     
 
     headers = {
