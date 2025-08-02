@@ -1,11 +1,11 @@
 
 """
-  # payload = {
-    # "numtype": "S",
-    # "unum": unum,
-    # "pin": pin,
-    # "authorise_function": "Login"
-    # }
+http://127.0.0.1:5000/api/v1/login
+{
+    "numtype": "S",
+    "unum": "224XXXXXX",
+    "pin": "XXXXX"
+}
 
 """
 import requests
