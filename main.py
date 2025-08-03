@@ -31,7 +31,7 @@ def sign_in():
     if success:
         return jsonify({"message": message}), 200
     else:
-        return jsonify({"message", message}), 401
+        return jsonify({"message": message}), 401
     
 
 
@@ -41,4 +41,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    app.run(debug=True)
+    app.run(debug=True, port=9090)
