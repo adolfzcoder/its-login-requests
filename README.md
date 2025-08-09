@@ -10,7 +10,7 @@ Use this API to validate login credentials if your're making a NUST app or UNAM 
 
 # How the Request looks like
 
-## End point : /api/v1/login
+## End point : /api/v1/login ```http://localhost:9090/api/v1/login```
 ### POST
    Body:
 ```
