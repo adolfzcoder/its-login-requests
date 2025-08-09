@@ -1,6 +1,12 @@
 # its-login-requests
 Use this API to validate login credentials if your're making a NUST app or UNAM app. If it uses ITS-KIOSK then use this API
 
+#
+
+## Start the flask server with ```python main.py``` (its port 9090 by default)
+### After starting, you may call the api 
+
+
 
 # How the Request looks like
 
