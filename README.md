@@ -7,16 +7,18 @@ Use this API to validate login credentials if your're making a NUST app or UNAM 
 ## End point : /api/v1/login
 ### POST
    Body:
-`
+```
 {
     "numtype": "S", 
     "unum": "2240XXXXX",
     "pin": "XXXXX"
 }
-`
-numtype --> user type, student or staff or alumni
-unum --> student number
+```
+# 
+```
+numtype --> user type student or staff or alumni
+num --> student number
 pin --> kiosk 5 digit login pin
-
+```
 
    
