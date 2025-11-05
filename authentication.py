@@ -44,7 +44,7 @@ def login(data: Payload):
 
     if response.status_code == 200:
 
-        return True, "Login Succesful"
+        return True, "Login Succesful", "Valid credentials", response.status_code, response.raw, response.url
     else:
-        return False, "Invalid credentials"
+        return False, "Invalid credentials", response.reason, response.status_code, response.raw, response.url
 

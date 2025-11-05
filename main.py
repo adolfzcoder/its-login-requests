@@ -27,11 +27,17 @@ def sign_in():
     
 
     signin_data = Payload(numtype, user_number, pin)
-    success, message = authentication.login(signin_data)
+    success, message, reason, res_code, raw, url  = authentication.login(signin_data)
     if success:
-        return jsonify({"message": message}), 200
+        return jsonify({"message": message, "reason": reason}), 200
     else:
-        return jsonify({"message": message}), 401
+        return jsonify({
+            "message": message,
+            "reason": reason, 
+            "res_code": res_code, 
+            "raw": raw.text if hasattr(raw, "text") else str(raw),
+            "url": str(url) 
+            }), 401
     
 
 
