@@ -27,9 +27,15 @@ def sign_in():
     
 
     signin_data = Payload(numtype, user_number, pin)
-    success, message, reason, res_code, page_text, url = authentication.login(signin_data)
+    success, message, reason, res_code, page_data, url = authentication.login(signin_data)
     if success:
-        return jsonify({"message": message, "reason": reason, "res_code": res_code}), 200
+        student_name = page_data.get("student_name") if isinstance(page_data, dict) else None
+        return jsonify({
+            "message": message,
+            "reason": reason,
+            "res_code": res_code,
+            "student_name": student_name
+        }), 200
     else:
         return jsonify({
             "message": message,
