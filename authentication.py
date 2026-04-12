@@ -13,11 +13,12 @@ import requests
 from credentials import unum, pin
 from Payload import Payload
 from flask import jsonify
+#url = "https://ienabler.nust.na/pls/prodi41/w99pkg.mi_validate_user"
 url = "https://ienabler.nust.na/pls/prodi41/w99pkg.mi_validate_user"
 
 def login(data: Payload):
     # payload = {
-    # "numtype": "S",
+    # "numtype": "S", 
     # "unum": unum,
     # "pin": pin,
     # "authorise_function": "Login"
@@ -27,13 +28,15 @@ def login(data: Payload):
     payload = {
     "numtype":data.accType,
     "unum":data.number,
-    "pin":data.pin
+    "pin":data.pin,
+    "authorise_function":"Login"
     }
     
 
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0",
+        "Referer": "https://ienabler.nust.na/pls/prodi41/w99pkg.mi_login"
     }
 
     with requests.Session() as session:
@@ -43,8 +46,12 @@ def login(data: Payload):
         # print("Response text snippet:", response.text[:500])
 
     if response.status_code == 200:
-
-        return True, "Login Succesful", "Valid credentials", response.status_code, response.raw, response.url
+        # Check if the response contains the encrypted checksum (indicator of successful login)
+        if "encrypted checksum:" in response.text:
+            return True, "Login Successful", "Valid credentials - Session created", response.status_code, response.text, response.url
+        else:
+            # Login failed, contains "Illegal Login" or "A Value Error Occurred"
+            return False, "Invalid credentials", "Login rejected by server", response.status_code, response.text, response.url
     else:
-        return False, "Invalid credentials", response.reason, response.status_code, response.raw, response.url
+        return False, "Invalid credentials", response.reason, response.status_code, response.text, response.url
 

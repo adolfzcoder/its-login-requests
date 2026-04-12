@@ -27,4 +27,13 @@ num --> student number
 pin --> kiosk 5 digit login pin
 ```
 
+```
+Reponse
+
+{
+  "message": "Login Succesful",
+  "reason": "Valid credentials"
+}
+
+```
    
