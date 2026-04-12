@@ -17,7 +17,7 @@ from credentials import unum, pin
 
 app = Flask(__name__)
 
-@app.route('/api/v1/login', methods=['POST'])
+@app.route('/api/v2/login', methods=['POST'])
 def sign_in():
     data = request.get_json()
 
@@ -29,7 +29,7 @@ def sign_in():
     signin_data = Payload(numtype, user_number, pin)
     success, message, reason, res_code, page_text, url = authentication.login(signin_data)
     if success:
-        return jsonify({"message": message, "reason": reason}), 200
+        return jsonify({"message": message, "reason": reason, "res_code": res_code}), 200
     else:
         return jsonify({
             "message": message,
