@@ -10,20 +10,29 @@ http://127.0.0.1:5000/api/v1/login
 """
 import requests
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import authentication
 from Payload import Payload
 from credentials import unum, pin
 
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/api/v2/login', methods=['POST'])
 def sign_in():
-    data = request.get_json()
+    data = request.get_json(silent=True) or request.form.to_dict() or {}
 
     numtype = data.get("numtype")
     user_number = data.get("unum")
     pin = data.get("pin")
+
+    if not numtype or not user_number or not pin:
+        return jsonify({
+            "message": "Missing required fields",
+            "reason": "Expected numtype, unum, and pin",
+            "res_code": 400
+        }), 400
     
 
     signin_data = Payload(numtype, user_number, pin)
