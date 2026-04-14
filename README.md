@@ -33,10 +33,11 @@ You may now call the api
   "pin": "12345"
 }
 ```
+```
 numtype --> user type student or staff or alumni
 num --> student number
 pin --> kiosk 5 digit login pin
-
+```
 ## Success Response (200)
 
 ```json
