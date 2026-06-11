@@ -11,6 +11,7 @@ Example of payload
 
 import requests
 import re
+import time
 from credentials import unum, pin
 from Payload import Payload
 from flask import jsonify
@@ -62,7 +63,23 @@ def login(data: Payload):
     }
 
     with requests.Session() as session:
-        response = session.post(url, data=payload, headers=headers)
+        response = None
+        for attempt in range(3):
+            try:
+                response = session.post(url, data=payload, headers=headers, timeout=20)
+            except requests.RequestException:
+                if attempt < 2:
+                    time.sleep(0.8)
+                    continue
+                return False, "Upstream error", "Unable to reach iEnabler service", 503, "", url
+
+            if response.status_code == 503 and attempt < 2:
+                time.sleep(0.8)
+                continue
+            break
+
+        if response is None:
+            return False, "Upstream error", "Unable to reach iEnabler service", 503, "", url
         # print("Status code:", response.status_code)
         # print("Response URL:", response.url)
         # print("Response text snippet:", response.text[:500])
@@ -95,12 +112,15 @@ def login(data: Payload):
 
                 # Return structured result for easier API consumption.
                 result = {
-                    "student_name": student_name
+                    "student_name": student_name,
+                    "frame_html": frame_html
                 }
                 return True, "Login Successful", "Valid credentials - Session created", response.status_code, result, frame_main_response.url
             else:
                 # Login failed, contains "Illegal Login" or "A Value Error Occurred"
                 return False, "Invalid credentials", "Login rejected by server", response.status_code, response.text, response.url
         else:
+            if response.status_code == 503:
+                return False, "Upstream unavailable", "iEnabler service is temporarily unavailable", response.status_code, response.text, response.url
             return False, "Invalid credentials", response.reason, response.status_code, response.text, response.url
 

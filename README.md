@@ -73,3 +73,34 @@ curl -X POST http://localhost:9090/api/v2/login \
   -d '{"numtype":"S","unum":"2240XXXXX","pin":"12345"}'
 ```
 
+## Results Endpoint
+NEW ENDPOINT, returning results
+- Method: `POST`
+- URL: `http://localhost:9090/api/v2/results`
+- Content-Type: `application/json`
+
+## Success Response (200)
+
+```json
+{
+  "message": "Login Successful",
+  "page_url": "https://ienabler.nust.na/pls/prodi41/w99pkg.mi_frame_main",
+  "reason": "Valid credentials - Session created",
+  "res_code": 200,
+  "results": {
+    "results": [
+      {
+        "description": "MODULE NAME",
+        "final_mark": "",
+        "full_period": "",
+        "half_period": "",
+        "offering_type": "STUDY MODE",
+        "result": "RESULT",
+        "subject_code": "COURSE CODE",
+        "withheld_reasons": ""
+      },
+    ]
+  }
+}
+```
+
