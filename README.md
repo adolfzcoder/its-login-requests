@@ -74,7 +74,7 @@ curl -X POST http://localhost:9090/api/v2/login \
 ```
 
 ## Results Endpoint
-NEW ENDPOINT, returning results
+NEW ENDPOINT, returning results (Current issue, returning all modules, but atleast arranged in latest to oldest -- will fix later)
 - Method: `POST`
 - URL: `http://localhost:9090/api/v2/results`
 - Content-Type: `application/json`
